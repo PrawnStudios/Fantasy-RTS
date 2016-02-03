@@ -43,3 +43,11 @@ FantasyRTSUnity/Library/*
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# ===================================== #
+# Will / Tim Added Ignores #
+# ===================================== #
+Library
+Library/
+*Library
+**Library
