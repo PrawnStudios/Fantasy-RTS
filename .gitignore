@@ -60,3 +60,10 @@ FantasyRTSUnity/Library
 # Unity3D generated meta files
 *.pidb.meta
 *.meta
+
+ Library/previews/*
+ Library/ScriptAssemblies/*
+ Library/cache/*
+ Library/metadata/*
+ Library/*
+ !Library/*.asset
