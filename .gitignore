@@ -61,9 +61,8 @@ FantasyRTSUnity/Library
 *.pidb.meta
 *.meta
 
- Library/previews/*
- Library/ScriptAssemblies/*
- Library/cache/*
- Library/metadata/*
- Library/*
- !Library/*.asset
+FantasyRTSUnity/Library/previews/*
+FantasyRTSUnity/Library/ScriptAssemblies/*
+FantasyRTSUnity/Library/cache/*
+FantasyRTSUnity/Library/metadata/*
+FantasyRTSUnity/Library/*
