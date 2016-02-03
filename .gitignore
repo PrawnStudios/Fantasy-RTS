@@ -23,7 +23,9 @@ ExportedObj/*
 *.log
 # Ignore UnityVS so users can use different versions
 Assets/UnityVS/*
-Project Folder/Fantasy RTS/Assets/UnityVS/*
+Library/*
+FantasyRTSUnity/Assets/UnityVS/*
+FantasyRTSUnity/Library/*
 
 #ignoring pidb, they are just code completion caching data according to:
 # http://stackoverflow.com/questions/1022111/what-are-monodevelops-pidb-files
@@ -41,3 +43,26 @@ Project Folder/Fantasy RTS/Assets/UnityVS/*
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# ===================================== #
+# Will / Tim Added Ignores #
+# ===================================== #
+Library/*
+Library/
+*/*Library/
+*Library
+**Library
+FantasyRTSUnity/Library/**
+FantasyRTSUnity/Library/*
+FantasyRTSUnity/Library/
+FantasyRTSUnity/Library
+
+# Unity3D generated meta files
+*.pidb.meta
+*.meta
+
+FantasyRTSUnity/Library/previews/*
+FantasyRTSUnity/Library/ScriptAssemblies/*
+FantasyRTSUnity/Library/cache/*
+FantasyRTSUnity/Library/metadata/*
+FantasyRTSUnity/Library/*
