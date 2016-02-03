@@ -47,7 +47,7 @@ Thumbs.db
 # ===================================== #
 # Will / Tim Added Ignores #
 # ===================================== #
-Library
+Library/*
 Library/
 */*Library/
 *Library
