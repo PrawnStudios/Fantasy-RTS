@@ -23,6 +23,7 @@ ExportedObj/*
 *.log
 # Ignore UnityVS so users can use different versions
 Assets/UnityVS/*
+Library/*
 FantasyRTSUnity/Assets/UnityVS/*
 FantasyRTSUnity/Library/*
 
