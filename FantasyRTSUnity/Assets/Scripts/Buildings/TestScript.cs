@@ -4,5 +4,5 @@ using System.Collections;
 public class TestScript : MonoBehaviour
 {
 
-    //Editied by Will.
+    //Editied by Will and Tim.
 }
