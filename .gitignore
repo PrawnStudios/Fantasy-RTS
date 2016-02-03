@@ -56,3 +56,7 @@ FantasyRTSUnity/Library/**
 FantasyRTSUnity/Library/*
 FantasyRTSUnity/Library/
 FantasyRTSUnity/Library
+
+# Unity3D generated meta files
+*.pidb.meta
+*.meta

@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 308361078}
   - 114: {fileID: 308361077}
-  - 135: {fileID: 308361079}
   m_Layer: 0
   m_Name: Test Object
   m_TagString: Untagged
@@ -125,18 +124,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
---- !u!135 &308361079
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 308361076}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &750528055
 GameObject:
   m_ObjectHideFlags: 0
