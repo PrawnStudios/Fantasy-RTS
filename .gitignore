@@ -49,5 +49,10 @@ Thumbs.db
 # ===================================== #
 Library
 Library/
+*/*Library/
 *Library
 **Library
+FantasyRTSUnity/Library/**
+FantasyRTSUnity/Library/*
+FantasyRTSUnity/Library/
+FantasyRTSUnity/Library
