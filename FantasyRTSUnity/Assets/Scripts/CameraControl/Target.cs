@@ -31,6 +31,7 @@ public class Target : MonoBehaviour
             if (hit.transform.tag == "Building")
             {
                 target = hit.transform.gameObject;
+                target.GetComponent<Barracks>().selected = true;
                 Target.updateTargets = false;
             }
             else if (hit.transform.tag == "Unit")
