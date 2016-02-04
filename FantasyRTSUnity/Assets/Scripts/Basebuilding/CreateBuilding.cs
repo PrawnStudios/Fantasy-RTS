@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CreateBuilding : MonoBehaviour
 {
-
     private GameObject tempBuilding;
     private GameObject tempBuildingGraphic;
     private Transform[] FoundationCheckers;
@@ -14,6 +13,7 @@ public class CreateBuilding : MonoBehaviour
     private bool canBuild = false;
     private bool buildingEnabled = false;
     public static bool isTriggered = false;
+    public static bool isInRange = false;
 
     private Material previewOk;
     private Material previewBlocked;
@@ -22,17 +22,49 @@ public class CreateBuilding : MonoBehaviour
     private bool togglePrevewRotation = false;
 
     public string currentBuilding;
+    private string previewName;
+
+    private Vector2 origin = new Vector2(0, 0);
+    private int radius = 100;
+
+    //LINE RENDERERERERERER
+    public float ThetaScale = 0.01f;
+    private int Size;
+    private LineRenderer LineDrawer;
+    private float Theta = 0f;
 
     void Start ()
     {        
         previewOk = Resources.Load("Materials/Buildings/BuildingPreview") as Material;
         previewBlocked = Resources.Load("Materials/Buildings/PreviewBlocked") as Material;
+        LineDrawer = GetComponent<LineRenderer>();
     }
 
     void Update()
     {
         KeyBindings(); // Check for Inputs    
-        Prerequisites(); //Check Prerequisite "Functions".   
+        Prerequisites(); //Check Prerequisite "Functions".
+
+        if(previewName == "Citadel")
+        {
+            GetComponent<LineRenderer>().enabled = true;
+            Theta = 0f;
+            Size = (int)((1f / ThetaScale) + 1f);
+            LineDrawer.SetVertexCount(Size);
+            LineDrawer.material = new Material(Shader.Find("Particles/Additive"));
+            LineDrawer.SetColors(Color.red, Color.red);
+            for (int i = 0; i < Size; i++)
+            {
+                Theta += (2.0f * Mathf.PI * ThetaScale);
+                float x = radius * Mathf.Cos(Theta);
+                float y = radius * Mathf.Sin(Theta);
+                LineDrawer.SetPosition(i, new Vector3(x, tempBuilding.transform.position.y + 1, y));
+            }
+        }
+        else
+        {
+            GetComponent<LineRenderer>().enabled = false;
+        }
     }
 
     public void CheckSensors ()
@@ -42,6 +74,12 @@ public class CreateBuilding : MonoBehaviour
             canBuild = false;
             tempBuildingGraphic.GetComponent<MeshRenderer>().material = previewBlocked;
             Debug.Log("Can't Build Here");
+        }
+        else if (Vector2.Distance(origin, new Vector2(tempBuilding.transform.position.x, tempBuilding.transform.position.z)) > radius)
+        {
+            canBuild = false;
+            tempBuildingGraphic.GetComponent<MeshRenderer>().material = previewBlocked;                  
+            return;
         }
         else
         {
@@ -111,8 +149,10 @@ public class CreateBuilding : MonoBehaviour
             }
 
             tempBuilding = Instantiate(Resources.Load("Prefabs/Buildings/Previews/" + buildingName + "Preview"), hit.point, Quaternion.identity) as GameObject;
+            tempBuilding.name = buildingName + "Preview";
             tempBuildingGraphic = tempBuilding.transform.FindChild("Graphic").gameObject;
             FoundationCheckers = tempBuilding.transform.FindChild("Foundation Check").GetComponentsInChildren<Transform>();
+            previewName = buildingName;
         }
     }
 
@@ -156,7 +196,8 @@ public class CreateBuilding : MonoBehaviour
     {
         if (canBuild)
         {
-            GameObject _building = Instantiate(Resources.Load("Prefabs/Buildings/" + buildingName), tempBuilding.transform.position, tempBuilding.transform.rotation) as GameObject;
+            GameObject _building = Instantiate(Resources.Load("Prefabs/Buildings/" + previewName), tempBuilding.transform.position, tempBuilding.transform.rotation) as GameObject;
+            _building.name = previewName;
             CancelPreview();
             Debug.Log(buildingName + " Has been Spawned at " + instLocation.ToString() + " at *CurrentGameTime*");
             //TODO Update a* graph with new building.
@@ -170,6 +211,7 @@ public class CreateBuilding : MonoBehaviour
         canBuild = false;
         isTriggered = false;
         togglePrevewRotation = false;
+        previewName = null;
     }
 
     void Prerequisites()
@@ -190,7 +232,7 @@ public class CreateBuilding : MonoBehaviour
     {
         if (Input.GetButtonUp("Create Building Preview"))
         {
-            CreatePreview(currentBuilding);
+            CreatePreview(currentBuilding);            
         }
 
         if (Input.GetButtonUp("Confirm Building Preview"))

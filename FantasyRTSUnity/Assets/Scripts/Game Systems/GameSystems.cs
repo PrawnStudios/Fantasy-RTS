@@ -70,14 +70,14 @@ public class GameSystems : MonoBehaviour
     void SendBugReport(string _title, string _body)
     {
         MailMessage mail = new MailMessage();
-        mail.From = new MailAddress("prawnstudiosbugreports@gmail.com");
-        mail.To.Add("prawnstudios@gmail.com");
+        mail.From = new MailAddress("prawnstudios@gmail.com");
+        mail.To.Add("prawnstudiosbugreports@gmail.com");
         mail.Subject = _title;
         mail.Body = _body;
 
         SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
         smtpServer.Port = 587;
-        smtpServer.Credentials = new System.Net.NetworkCredential("prawnstudiosbugreports@gmail.com", "Alphaprawn1") as ICredentialsByHost;
+        smtpServer.Credentials = new System.Net.NetworkCredential("prawnstudios@gmail.com", "Alphaprawn1") as ICredentialsByHost;
         smtpServer.EnableSsl = true;
         ServicePointManager.ServerCertificateValidationCallback =
             delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
