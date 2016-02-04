@@ -83,8 +83,12 @@ public class GameSystems : MonoBehaviour
             delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
             { return true; };
         smtpServer.Send(mail);
-        Debug.Log("Bug Report Successful");
+
         bugReportUI = false;
+        reportTitle = defaultReportTitle;
+        reportBody = defaultReportBody;
+
+        Debug.Log("Bug Report Submitted");
     }
 
     void OnGUI()
