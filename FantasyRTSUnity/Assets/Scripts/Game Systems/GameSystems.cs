@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 public class GameSystems : MonoBehaviour 
 {
@@ -13,6 +18,11 @@ public class GameSystems : MonoBehaviour
     public delegate void TimeUpdate(int newTime, int newSeconds, int newMinutes, string timeString);
     public static event TimeUpdate OnTimeUpdated;
 
+    private bool bugReportUI = false;
+    public string reportTitle = "Bug Report Title";
+    public string reportBody = "Please Describe the bug in as much detail as possible";
+    private string defaultReportTitle = "Bug Report Title";
+    private string defaultReportBody = "Please Describe the bug in as much detail as possible";
 
     void Start () 
 	{
@@ -57,6 +67,26 @@ public class GameSystems : MonoBehaviour
         }
     }
 
+    void SendBugReport(string _title, string _body)
+    {
+        MailMessage mail = new MailMessage();
+        mail.From = new MailAddress("prawnstudiosbugreports@gmail.com");
+        mail.To.Add("prawnstudios@gmail.com");
+        mail.Subject = _title;
+        mail.Body = _body;
+
+        SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+        smtpServer.Port = 587;
+        smtpServer.Credentials = new System.Net.NetworkCredential("prawnstudiosbugreports@gmail.com", "Alphaprawn1") as ICredentialsByHost;
+        smtpServer.EnableSsl = true;
+        ServicePointManager.ServerCertificateValidationCallback =
+            delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+            { return true; };
+        smtpServer.Send(mail);
+        Debug.Log("Bug Report Successful");
+        bugReportUI = false;
+    }
+
     void OnGUI()
     {
         var centerdLabel = GUI.skin.GetStyle("Label");
@@ -85,7 +115,8 @@ public class GameSystems : MonoBehaviour
 
             if (GUILayout.Button("Report a Bug"))
             {
-                //TODO Report Bug Function
+                //SendBugReport();
+                bugReportUI = !bugReportUI;
             }
 
             if (GUILayout.Button("Quit"))
@@ -106,13 +137,26 @@ public class GameSystems : MonoBehaviour
             GUILayout.FlexibleSpace();
             //
             GUILayout.Space(250);
-
-            GUILayout.Label("Version: Pre-Alpha", centerdLabel);
-            GUILayout.Space(10);
-            centerdLabel.fontStyle = FontStyle.Bold;
-            GUILayout.Label("Notes:", centerdLabel);
-            centerdLabel.fontStyle = FontStyle.Normal;
-            GUILayout.Label("Quit does not work in the editor. \n Main Menu does not work. \n Report Bug does not work.", centerdLabel);
+            //
+            if (bugReportUI)
+            {
+                GUILayout.Space(50);
+                reportTitle = GUILayout.TextField(reportTitle, 25);
+                reportBody = GUILayout.TextArea(reportBody, 500);                
+                if (GUILayout.Button("Send Bug Report"))
+                {
+                    SendBugReport(reportTitle, reportBody);
+                }
+            }
+            else
+            {
+                GUILayout.Label("Version: Pre-Alpha", centerdLabel);
+                GUILayout.Space(10);
+                centerdLabel.fontStyle = FontStyle.Bold;
+                GUILayout.Label("Notes:", centerdLabel);
+                centerdLabel.fontStyle = FontStyle.Normal;
+                GUILayout.Label("Quit does not work in the editor. \n Main Menu does not work.", centerdLabel);
+            }
             //
             GUILayout.FlexibleSpace();
             GUILayout.EndVertical();

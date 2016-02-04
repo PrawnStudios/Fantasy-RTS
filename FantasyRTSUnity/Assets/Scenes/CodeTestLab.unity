@@ -194,6 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429e0f46e9853754d94968a4045f84a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reportTitle: Bug Report Title
+  reportBody: Please Describe the bug in as much detail as possible
 --- !u!1 &1047241393
 GameObject:
   m_ObjectHideFlags: 0
