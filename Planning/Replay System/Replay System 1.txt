@@ -1,0 +1,33 @@
+Create function in GameSystems called Log()
+
+whenever an action is taken, pass the action as a string to the log function. 
+
+THe log function will then add the string and game time as a new line ina a text document.
+after the game is done convert from a .ini to a custom file type eg .RTSReplay.
+
+To watch the replays load a scene that will convert the file back to a .txt and read it line by line. extecution the action at the game time stroed with it. 
+
+Example:
+
+[Started Training]
+Time = 0:30
+Unit = Archers
+Barracks = Barracks Name Here
+Slot = 1
+
+[Finished Training]
+Time = 1:45
+Unit = Archers
+Barracks = Barracks Name Here
+Slot = 1
+
+[Unit Moved]
+Unit Name = Archers(1)
+
+Current Position.x = 100
+Current Position.y = 0
+Current Position.z = 35
+
+New Position.x = 500
+New Position.y = 25
+New Position.z = 40

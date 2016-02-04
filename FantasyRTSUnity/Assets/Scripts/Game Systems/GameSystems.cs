@@ -45,13 +45,13 @@ public class GameSystems : MonoBehaviour
     {
         if(paused == false)
         {
-            Time.timeScale = 0;
+            Time.timeScale = 0; //This stops the game playing in the background. for multiplayer do not use this
             AudioListener.volume = 0;
             paused = true;
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = 1; //This stops the game playing in the background. for multiplayer do not use this
             AudioListener.volume = 1;
             paused = false;
         }
