@@ -65,6 +65,8 @@ public class GameSystems : MonoBehaviour
 
         if (paused)
         {
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), ""); //Darkens screen when paused
+
             GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
             GUILayout.BeginHorizontal();            
             GUILayout.FlexibleSpace();            

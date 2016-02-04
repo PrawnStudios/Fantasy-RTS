@@ -73,7 +73,7 @@ public class Barracks : MonoBehaviour
 
     void OnGUI()
     {
-        if (selected)
+        if (selected && !GameSystems.paused)
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
             
