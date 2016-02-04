@@ -77,7 +77,7 @@ public class Barracks : MonoBehaviour
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
             
-            targetRect.x = screenPos.x;
+            targetRect.x = screenPos.x - windowWidth * 0.5f;
             targetRect.y = Screen.height - screenPos.y;
             targetRect.width = windowWidth;
             targetRect.height = 25 + (buttonHeight + 5) * level - 5;
@@ -109,9 +109,23 @@ public class Barracks : MonoBehaviour
                     UnitTypeBox = new Rect(targetRect.x + windowWidth, _buttonY , windowWidth, buttonHeight);
                     if (GUI.Button(new Rect(targetRect.x, _buttonY, windowWidth, buttonHeight), "Recruit a Unit")) //Display the Recruit a Unit Button
                     {
-                        showUnitTypeList = true;
-                        //UnitTypeBox = new Rect(targetRect.x + windowWidth, _buttonY, windowWidth, buttonHeight);
-                        unitTypeButtonNo = i;
+                        if (showUnitTypeList == false && unitTypeButtonNo == i)
+                        {
+                            showUnitTypeList = true;
+                            unitTypeButtonNo = i;
+                        }
+                        else if(unitTypeButtonNo == i)
+                        {
+                            showUnitTypeList = false;
+                            showInfantryList = false;
+                            showMountedList = false;
+                            showSiegeList = false;
+                        }
+                        else
+                        {
+                            showUnitTypeList = true;
+                            unitTypeButtonNo = i;
+                        }
                     }
                 }
                 else
@@ -131,29 +145,81 @@ public class Barracks : MonoBehaviour
             //
             if(showUnitTypeList)
             {
-                var xx = targetRect.x + windowWidth;
+                //var xx = targetRect.x + windowWidth;
+                float xx = 0;
+                if(screenPos.x <= Screen.width * 0.5f)
+                {
+                    xx = targetRect.x + windowWidth;
+                }
+                else
+                {
+                    xx = targetRect.x - windowWidth;
+                }
+
                 var yy = targetRect.y + (buttonHeight +  (5 + buttonHeight) * unitTypeButtonNo); //5 + buttonheight * number
                 var buttonW = windowWidth / 3;
 
+                GUI.Box(new Rect(xx, yy, windowWidth-1, buttonHeight), "");
+
                 if (GUI.Button(new Rect(xx, yy, buttonW, buttonHeight), "Infantry"))
                 {
-                    showInfantryList = true;
-                    showMountedList = false;
-                    showSiegeList = false;                    
+                    if (showInfantryList == false)
+                    {
+                        showInfantryList = true;
+                        showMountedList = false;
+                        showSiegeList = false;
+                    }
+                    else
+                    {
+                        showInfantryList = false;
+                    }                
                 }
-                xx = targetRect.x + windowWidth + (windowWidth / 3);
+
+                //xx = targetRect.x + windowWidth + (windowWidth / 3);
+
+                if (screenPos.x <= Screen.width * 0.5f)
+                {
+                    xx = targetRect.x + windowWidth + (windowWidth / 3);
+                }
+                else
+                {
+                    xx = targetRect.x - windowWidth + (windowWidth / 3);
+                }
                 if (GUI.Button(new Rect(xx, yy, buttonW, buttonHeight), "Mounted"))
                 {
-                    showInfantryList = false;
-                    showMountedList = true;
-                    showSiegeList = false;
+                    if (showMountedList == false)
+                    {
+                        showInfantryList = false;
+                        showMountedList = true;
+                        showSiegeList = false;
+                    }
+                    else
+                    {
+                        showMountedList = false;
+                    }
                 }
-                xx = targetRect.x + windowWidth + (windowWidth / 3) * 2;
+
+                //xx = targetRect.x + windowWidth + (windowWidth / 3) * 2;
+                if (screenPos.x <= Screen.width * 0.5f)
+                {
+                    xx = targetRect.x + windowWidth + (windowWidth / 3) * 2;
+                }
+                else
+                {
+                    xx = targetRect.x - windowWidth + (windowWidth / 3) * 2;
+                }
                 if (GUI.Button(new Rect(xx, yy, buttonW, buttonHeight), "Siege"))
                 {
-                    showInfantryList = false;
-                    showMountedList = false;
-                    showSiegeList = true;
+                    if (showSiegeList == false)
+                    {
+                        showInfantryList = false;
+                        showMountedList = false;
+                        showSiegeList = true;
+                    }
+                    else
+                    {
+                        showSiegeList = false;
+                    }
                 }
             }
 
@@ -161,11 +227,20 @@ public class Barracks : MonoBehaviour
             {
                 var yy = targetRect.y + (buttonHeight + (5 + buttonHeight) * unitTypeButtonNo); //5 + buttonheight * number
                 var hh = buttonHeight + (buttonHeight * infantry.Length);
-                GUI.Box(new Rect(targetRect.x + windowWidth, yy + buttonHeight, windowWidth, hh), "Infantry");
+                float xx = 0;
+                if (screenPos.x <= Screen.width * 0.5f)
+                {
+                    xx = targetRect.x + windowWidth;
+                }
+                else
+                {
+                    xx = targetRect.x - windowWidth;
+                }
+                GUI.Box(new Rect(xx, yy + buttonHeight, windowWidth, hh), "Infantry");
 
                 for(int i=0; i < infantry.Length; i++)
                 {
-                    if(GUI.Button(new Rect(targetRect.x + windowWidth, yy + buttonHeight * 2 + (buttonHeight * i), windowWidth, buttonHeight), infantry[i]))
+                    if(GUI.Button(new Rect(xx, yy + buttonHeight * 2 + (buttonHeight * i), windowWidth, buttonHeight), infantry[i]))
                     {
                         slot[unitTypeButtonNo] = infantry[i];
                         time[unitTypeButtonNo] = infantryTimes[i];
@@ -182,11 +257,20 @@ public class Barracks : MonoBehaviour
             {
                 var yy = targetRect.y + (buttonHeight + (5 + buttonHeight) * unitTypeButtonNo); //5 + buttonheight * number
                 var hh = buttonHeight + (buttonHeight * mounted.Length);
-                GUI.Box(new Rect(targetRect.x + windowWidth, yy + buttonHeight, windowWidth, hh), "Mounted");
+                float xx = 0;
+                if (screenPos.x <= Screen.width * 0.5f)
+                {
+                    xx = targetRect.x + windowWidth;
+                }
+                else
+                {
+                    xx = targetRect.x - windowWidth;
+                }
+                GUI.Box(new Rect(xx, yy + buttonHeight, windowWidth, hh), "Mounted");
 
                 for (int i = 0; i < mounted.Length; i++)
                 {
-                    if (GUI.Button(new Rect(targetRect.x + windowWidth, yy + buttonHeight * 2 + (buttonHeight * i), windowWidth, buttonHeight), mounted[i]))
+                    if (GUI.Button(new Rect(xx, yy + buttonHeight * 2 + (buttonHeight * i), windowWidth, buttonHeight), mounted[i]))
                     {
                         slot[unitTypeButtonNo] = mounted[i];
                         time[unitTypeButtonNo] = mountedTimes[i];
@@ -203,11 +287,20 @@ public class Barracks : MonoBehaviour
             {
                 var yy = targetRect.y + (buttonHeight + (5 + buttonHeight) * unitTypeButtonNo); //5 + buttonheight * number
                 var hh = buttonHeight + (buttonHeight * siege.Length);
-                GUI.Box(new Rect(targetRect.x + windowWidth, yy + buttonHeight, windowWidth, hh), "Siege");
+                float xx = 0;
+                if (screenPos.x <= Screen.width * 0.5f)
+                {
+                    xx = targetRect.x + windowWidth;
+                }
+                else
+                {
+                    xx = targetRect.x - windowWidth;
+                }
+                GUI.Box(new Rect(xx, yy + buttonHeight, windowWidth, hh), "Siege");
 
                 for (int i = 0; i < siege.Length; i++)
                 {
-                    if (GUI.Button(new Rect(targetRect.x + windowWidth, yy + buttonHeight * 2 + (buttonHeight * i), windowWidth, buttonHeight), siege[i]))
+                    if (GUI.Button(new Rect(xx, yy + buttonHeight * 2 + (buttonHeight * i), windowWidth, buttonHeight), siege[i]))
                     {
                         slot[unitTypeButtonNo] = siege[i];
                         time[unitTypeButtonNo] = siegeTimes[i];
