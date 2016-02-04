@@ -32,6 +32,13 @@ public class HUD : MonoBehaviour
 
     void OnGUI () 
 	{
-        GUILayout.Label(timeString);
+        if (GameSystems.paused == false)
+        {
+            GUILayout.Label(timeString);
+        }
+        else
+        {
+            GUILayout.Label("Paused (" + timeString + ")");
+        }
     }
 }

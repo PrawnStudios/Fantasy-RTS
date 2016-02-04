@@ -1,0 +1,14 @@
+Add option in the pause menu to report a bug. 
+
+once click opens a ui where you can type a Title and a Body.
+
+the report will automatically include the:
+
+Game Version
+Game Time
+
+
+Ways of the report to us:
+
+bug report Email
+Sending message to game server using the same way the in game chat system sends messages. then convert the message to a string and create a text file with the string and name it to the title.
