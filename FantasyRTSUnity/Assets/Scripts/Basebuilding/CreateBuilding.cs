@@ -19,7 +19,7 @@ public class CreateBuilding : MonoBehaviour
     private Material previewBlocked;
 
     public int currentRotationDegree = 25;
-    private bool togglePrevewRotation = false;
+    public bool togglePrevewRotation = false;
 
     public string currentBuilding;
     private string previewName;
@@ -27,7 +27,7 @@ public class CreateBuilding : MonoBehaviour
     private Vector2 origin = new Vector2(0, 0);
     private int radius = 100;
 
-    //LINE RENDERERERERERER
+    //LINE RENDER
     public float ThetaScale = 0.01f;
     private int Size;
     private LineRenderer LineDrawer;
@@ -44,27 +44,7 @@ public class CreateBuilding : MonoBehaviour
     {
         KeyBindings(); // Check for Inputs    
         Prerequisites(); //Check Prerequisite "Functions".
-
-        if(previewName == "Citadel")
-        {
-            GetComponent<LineRenderer>().enabled = true;
-            Theta = 0f;
-            Size = (int)((1f / ThetaScale) + 1f);
-            LineDrawer.SetVertexCount(Size);
-            LineDrawer.material = new Material(Shader.Find("Particles/Additive"));
-            LineDrawer.SetColors(Color.red, Color.red);
-            for (int i = 0; i < Size; i++)
-            {
-                Theta += (2.0f * Mathf.PI * ThetaScale);
-                float x = radius * Mathf.Cos(Theta);
-                float y = radius * Mathf.Sin(Theta);
-                LineDrawer.SetPosition(i, new Vector3(x, tempBuilding.transform.position.y + 1, y));
-            }
-        }
-        else
-        {
-            GetComponent<LineRenderer>().enabled = false;
-        }
+        MakeCanBuildRadius();
     }
 
     public void CheckSensors ()
@@ -75,7 +55,7 @@ public class CreateBuilding : MonoBehaviour
             tempBuildingGraphic.GetComponent<MeshRenderer>().material = previewBlocked;
             Debug.Log("Can't Build Here");
         }
-        else if (Vector2.Distance(origin, new Vector2(tempBuilding.transform.position.x, tempBuilding.transform.position.z)) > radius)
+        else if (Vector2.Distance(origin, new Vector2(tempBuilding.transform.position.x, tempBuilding.transform.position.z)) > radius) //checks if building is further than the distance so you can not spawn outside build zone
         {
             canBuild = false;
             tempBuildingGraphic.GetComponent<MeshRenderer>().material = previewBlocked;                  
@@ -225,6 +205,30 @@ public class CreateBuilding : MonoBehaviour
         if (togglePrevewRotation)
         {
             RotatePreview();
+        }
+    }
+
+    public void MakeCanBuildRadius()
+    {
+        if (previewName == "Citadel")
+        {
+            GetComponent<LineRenderer>().enabled = true;
+            Theta = 0f;
+            Size = (int)((1f / ThetaScale) + 1f);
+            LineDrawer.SetVertexCount(Size);
+            LineDrawer.material = new Material(Shader.Find("Particles/Additive"));
+            LineDrawer.SetColors(Color.red, Color.red);
+            for (int i = 0; i < Size; i++)
+            {
+                Theta += (2.0f * Mathf.PI * ThetaScale);
+                float x = radius * Mathf.Cos(Theta);
+                float y = radius * Mathf.Sin(Theta);
+                LineDrawer.SetPosition(i, new Vector3(x, tempBuilding.transform.position.y + 1, y));
+            }
+        }
+        else
+        {
+            GetComponent<LineRenderer>().enabled = false;
         }
     }
 

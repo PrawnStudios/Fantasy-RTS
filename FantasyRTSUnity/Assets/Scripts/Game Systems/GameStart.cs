@@ -14,8 +14,4 @@ public class GameStart : MonoBehaviour
         GetComponent<CreateBuilding>().CreatePreview("Citadel");
         citidel = GameObject.Find("CitadelPreview");
 	}
-
-    void Update()
-    {
-    }
 }

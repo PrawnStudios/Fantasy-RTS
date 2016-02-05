@@ -64,7 +64,6 @@ public class CameraMovement : MonoBehaviour
             heightChanged = false;
         }
         transform.Translate(dir * Time.deltaTime * speed);
-        //Debug.Log("Speed = " + speed + ", Height = " + transform.position.y + ", Height to Speed Modifier = " + heightSpeedModifer + "%");
     }
 
     void Zoom(Vector3 dir)
