@@ -24,14 +24,22 @@ public class GameSystems : MonoBehaviour
     private string defaultReportTitle = "Bug Report Title";
     private string defaultReportBody = "Please Describe the bug in as much detail as possible";
 
+    public static bool fpsToggle = false;
+    private int FPSX = 0;
+    private int FPSY = 15;
+    private int fps;
+    private int frames;
+
     void Start () 
 	{
         InvokeRepeating("AddSecond", 0, 1);
-	}
+        InvokeRepeating("FPSCount", 0, 1);
+    }
 
     void Update()
     {
         Keybindings();
+        frames++;
     }
 	
 	void AddSecond () 
@@ -91,11 +99,27 @@ public class GameSystems : MonoBehaviour
         Debug.Log("Bug Report Submitted");
     }
 
+    public static void ToggleFPSDisplay()
+    {
+        fpsToggle = !fpsToggle;
+    }
+
+    void FPSCount()
+    {
+        fps = frames;
+        frames = 0;
+    }
+
     void OnGUI()
     {
         var centerdLabel = GUI.skin.GetStyle("Label");
         centerdLabel.alignment = TextAnchor.UpperCenter;
         centerdLabel.fontStyle = FontStyle.Normal;
+
+        if(fpsToggle)
+        {
+            GUI.Label(new Rect(FPSX, FPSY, 100, 25), fps.ToString());
+        }
 
         if (paused)
         {
@@ -176,5 +200,10 @@ public class GameSystems : MonoBehaviour
         {
             Pause();
         }
+        if (Input.GetButtonUp("FPS Counter Toggle"))
+        {
+            ToggleFPSDisplay();
+        }
+
     }
 }
