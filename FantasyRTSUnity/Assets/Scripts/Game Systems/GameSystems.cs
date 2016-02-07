@@ -23,6 +23,12 @@ public class GameSystems : MonoBehaviour
     public string reportBody = "Please Describe the bug in as much detail as possible";
     private string defaultReportTitle = "Bug Report Title";
     private string defaultReportBody = "Please Describe the bug in as much detail as possible";
+	
+	private bool feedbackUI = false;
+    public string feedbackTitle = "Feedback Title";
+    public string feedbackBody = "Please give your feedback in as much detail as possible";
+    private string defaultFeedbackTitle = "Feedback Title";
+    private string defaultFeedbackBody = "Please give your feedback in as much detail as possible";
 
     public static bool fpsToggle = false;
     private int FPSX = 0;
@@ -98,6 +104,30 @@ public class GameSystems : MonoBehaviour
 
         Debug.Log("Bug Report Submitted");
     }
+	
+	void SendFeedback(string _title, string _body)
+    {
+        MailMessage mail = new MailMessage();
+        mail.From = new MailAddress("prawnstudiosbugreports@gmail.com");
+        mail.To.Add("prawnstudios@gmail.com");
+        mail.Subject = _title;
+        mail.Body = _body;
+
+        SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+        smtpServer.Port = 587;
+        smtpServer.Credentials = new System.Net.NetworkCredential("prawnstudiosbugreports@gmail.com", "Alphaprawn1") as ICredentialsByHost;
+        smtpServer.EnableSsl = true;
+        ServicePointManager.ServerCertificateValidationCallback =
+            delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+            { return true; };
+        smtpServer.Send(mail);
+
+        feedbackUI = false;
+        feedbackTitle = defaultFeedbackTitle;
+        feedbackBody = defaultFeedbackBody;
+
+        Debug.Log("Feedback Submitted");
+    }
 
     public static void ToggleFPSDisplay()
     {
@@ -141,6 +171,12 @@ public class GameSystems : MonoBehaviour
                 //TODO Go to Main Menu
             }
 
+            if (GUILayout.Button("Give Feedback"))
+            {
+                //SendBugReport();
+                feedbackUI = !feedbackUI;
+            }
+
             if (GUILayout.Button("Report a Bug"))
             {
                 //SendBugReport();
@@ -176,6 +212,16 @@ public class GameSystems : MonoBehaviour
                     SendBugReport(reportTitle, reportBody);
                 }
             }
+			else if(feedbackUI)
+			{
+				GUILayout.Space(50);
+                feedbackTitle = GUILayout.TextField(feedbackTitle, 25);
+                feedbackBody = GUILayout.TextArea(feedbackBody, 500);                
+                if (GUILayout.Button("Send Feedback"))
+                {
+                    SendFeedback(feedbackTitle, feedbackBody);
+                }
+			}
             else
             {
                 GUILayout.Label("Version: Pre-Alpha", centerdLabel);

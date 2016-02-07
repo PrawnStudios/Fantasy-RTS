@@ -199,6 +199,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reportTitle: Bug Report Title
   reportBody: Please Describe the bug in as much detail as possible
+  feedbackTitle: Feedback Title
+  feedbackBody: Please give your feedback in as much detail as possible
 --- !u!120 &1014619231
 LineRenderer:
   m_ObjectHideFlags: 0
