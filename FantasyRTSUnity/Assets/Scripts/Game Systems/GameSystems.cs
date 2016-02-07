@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using System.Net;
@@ -168,7 +169,8 @@ public class GameSystems : MonoBehaviour
 
             if (GUILayout.Button("Main Menu"))
             {
-                //TODO Go to Main Menu
+                Pause();
+                SceneManager.LoadScene("MainMenu");
             }
 
             if (GUILayout.Button("Give Feedback"))
