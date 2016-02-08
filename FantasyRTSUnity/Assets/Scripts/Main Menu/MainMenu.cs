@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour
         GUILayout.FlexibleSpace();
         //
         if (GUILayout.Button("Play")) { SceneManager.LoadScene("CodeTestLab"); }
-        if (GUILayout.Button("Check for Update")) {  }
+        if (GUILayout.Button("Check for Update")) { GetComponent<Patcher>().Check(); GetComponent<MainMenu>().enabled = false; }
         if (GUILayout.Button("Quit")) { Application.Quit(); }
         //
         GUILayout.FlexibleSpace();
