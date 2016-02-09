@@ -1,0 +1,22 @@
+if(transform.position.y > dynamic cap lower) //If not on the ground
+{
+	zoom
+}
+else //If we are on the ground
+{
+	if(tilt == tiltCapUpper) //If not tilted
+	{
+		if(dir = zoom in)
+		{
+			Tilt
+		}
+		else
+		{
+			Zoom
+		}
+	}
+	else //If tilted
+	{
+		Tilt
+	}
+}

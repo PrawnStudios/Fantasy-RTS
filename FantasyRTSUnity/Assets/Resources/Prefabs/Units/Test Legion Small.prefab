@@ -323,7 +323,7 @@ GameObject:
   - 4: {fileID: 410024}
   - 65: {fileID: 6536466}
   m_Layer: 0
-  m_Name: Test Legion
+  m_Name: Test Legion Small
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2415,7 +2415,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_Name
-      value: Test Legion
+      value: Test Legion Small
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
