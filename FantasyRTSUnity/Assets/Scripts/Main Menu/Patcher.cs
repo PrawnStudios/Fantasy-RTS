@@ -22,7 +22,7 @@ public class Patcher : MonoBehaviour
     bool showUpdateButton = false;
     bool showGUI = false;
 
-    string url = "http://www.prawnstudios.com/rts/Builds/PreAlpha3/version.txt";
+    string url = "http://www.prawnstudios.com/rts/Builds/live/version.txt";
 
     public void Check()
     {
@@ -56,6 +56,7 @@ public class Patcher : MonoBehaviour
             updating = false;
             showGUI = true;
             Debug.Log("No Update Avalible");
+            GetComponent<MainMenu>().enabled = true;
         }
         else
         {
