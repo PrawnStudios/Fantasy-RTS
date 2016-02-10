@@ -98,6 +98,7 @@ GameObject:
   - 124: {fileID: 754501680}
   - 81: {fileID: 754501679}
   - 114: {fileID: 754501684}
+  - 114: {fileID: 754501685}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 754501678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d972d324f449e04da8aaef43ed7666a, type: 3}
+  m_Script: {fileID: 11500000, guid: e36e4119059a5c44abf4306e9c6e163f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentMenu: Login
@@ -188,3 +189,14 @@ MonoBehaviour:
   Y: 65
   Width: 400
   Height: 450
+--- !u!114 &754501685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 754501678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d8fdaa2970a2a4cb0682d88e0891dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

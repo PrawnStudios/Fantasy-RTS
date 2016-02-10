@@ -12,11 +12,10 @@ public class LoginSystem : MonoBehaviour
     public static string confirmPassword = "";
     public static string cEmail = "";
     public static string cUserName = "";
-
     public string currentMenu = "Login";
 
-    private string CreateAccountUrl = "http://prawnstudios.com/accounts/register.php";
-    private string LoginUrl = "http://prawnstudios.com/accounts/login.php";
+    private string CreateAccountUrl = "http://prawnstudios.com/ingame/register.php";
+    private string LoginUrl = "http://prawnstudios.com/ingame/login.php";
 
     //GUI
     public float X = 300;
@@ -168,7 +167,6 @@ public class LoginSystem : MonoBehaviour
             string logText = LoginAccountWWW.text;
             if (logText == "Success")
             {
-                Debug.Log("Logging in");
                 Debug.Log(logText + "fully logged in!");
                 SceneManager.LoadScene("MainMenu");
                 PlayerPrefs.SetInt("Offline Mode", 0);
