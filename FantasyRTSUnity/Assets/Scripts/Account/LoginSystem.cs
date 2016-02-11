@@ -134,7 +134,7 @@ public class LoginSystem : MonoBehaviour
         }
         else
         {
-            string CreateAccountReturn = CreateAccountWWW.text;
+            string CreateAccountReturn = CreateAccountWWW.text;            
             if (CreateAccountReturn == "Success")
             {
                 Debug.Log("Success: Account created!");
@@ -153,6 +153,7 @@ public class LoginSystem : MonoBehaviour
         //make sure the "email" and "password" are spelt the same in php script
         form.AddField("Username", userName);
         form.AddField("Password", password);
+        //form.AddField("Status", "Online");
         //conect to our url, and put in our form
         WWW LoginAccountWWW = new WWW(LoginUrl, form);
         //make sure we get the returning information before we continue.
@@ -164,17 +165,28 @@ public class LoginSystem : MonoBehaviour
         }
         else
         {
+
             string logText = LoginAccountWWW.text;
-            if (logText == "Success")
+            Debug.Log(logText);
+            if (logText == "Already Logged In")
             {
-                Debug.Log(logText + "fully logged in!");
-                SceneManager.LoadScene("MainMenu");
-                PlayerPrefs.SetInt("Offline Mode", 0);
-                PlayerPrefs.SetString("Username", userName);
+                Debug.Log("This Account is already logged in on another computer.");
             }
             else
             {
-                Debug.Log("Invalid username or password");
+                string[] logTextSplit = logText.Split(':');
+                if (logTextSplit[0] == "Success")
+                {
+                    Debug.Log("Successfully logged in!");
+                    SceneManager.LoadScene("MainMenu");
+                    PlayerPrefs.SetInt("Offline Mode", 0);
+                    PlayerPrefs.SetString("Username", userName);
+                    PlayerPrefs.SetString("UserID", logTextSplit[1]); //Set the UserID to the MD5 encrypted version of the users ID
+                }
+                else
+                {
+                    Debug.Log("Invalid username or password");
+                }
             }
         }
     }
