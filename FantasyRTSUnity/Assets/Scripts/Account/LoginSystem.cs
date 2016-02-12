@@ -168,6 +168,7 @@ public class LoginSystem : MonoBehaviour
         {
 
             string logText = LoginAccountWWW.text;
+            Debug.Log(logText);
             if (logText == "Already Logged In")
             {
                 Debug.Log("This Account is already logged in on another computer.");

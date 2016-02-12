@@ -16,8 +16,13 @@ public class OnlineStatusCheck : MonoBehaviour
         if (offlineMode != 1)
         {
             InvokeRepeating("AddSecond", 1, 1);
-            InvokeRepeating("PingServer", 0, 30);
+            InvokeRepeating("StatusTimer", 0, 5);
         }
+    }
+
+    void StatusTimer()
+    {
+        StartCoroutine("PingServer");
     }
 	
 	void Update ()
@@ -87,17 +92,27 @@ public class OnlineStatusCheck : MonoBehaviour
         PlayerPrefs.SetString("OnlineStatus", onlineStatus);
     }
 
-    public void PingServer()
+    public IEnumerator PingServer()
     {
 
         Debug.Log("Pinged Server with Status: " + onlineStatus);
         WWWForm form = new WWWForm();
         form.AddField("ID", PlayerPrefs.GetString("UserID"));
-        form.AddField("Status", onlineStatus);     
+        form.AddField("Status", onlineStatus);
 
         //conect to our url, and put in our form
         WWW LoginAccountWWW = new WWW(reportToURL, form);
-        //make sure we get the returning information before we continue. 
+        yield return LoginAccountWWW;
+
+        if (LoginAccountWWW.error != null)
+        {
+            Debug.LogError("Cannot connect to status update server.");
+        }
+        else
+        {
+            string logText = LoginAccountWWW.text;
+            Debug.Log(logText);
+        }
     }
 }
 
