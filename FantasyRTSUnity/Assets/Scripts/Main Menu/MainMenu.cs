@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour
 
         Rect statusRect = new Rect(5, 5, 250, 25);
         if(GUI.Button(statusRect, "Status Currently: " + PlayerPrefs.GetString("OnlineStatus"))) { statusMenu = !statusMenu; }
-        if(statusMenu)
+        if(statusMenu && PlayerPrefs.GetInt("Offline Mode") == 0)
         {
             statusRect.y += 30;
             if(GUI.Button(statusRect, "Online")) { GetComponent<OnlineStatusCheck>().SetOnline(); }

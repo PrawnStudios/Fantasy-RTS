@@ -11,22 +11,25 @@ public class Friends : MonoBehaviour
     private string friendName;
 
     private int friendListLength = 1;
-    private string friendButtonText = "Hide";
+    private string friendButtonText = "Show";
     private string addFriendUrl = "http://prawnstudios.com/ingame/addfriend.php";
     private string removeFriendUrl = "http://prawnstudios.com/ingame/removefriend.php";
     private string getFriendsLIstUrl = "http://prawnstudios.com/ingame/getfriendslist.php";
 
-    public bool friendOptions = false;
-    public Vector2 friendOptionsPos;
+    private bool friendOptions = false;
+    private Vector2 friendOptionsPos;
 
     private string[] friendsList = new string[0];
     private string[] friendsStatusList = new string[0];
-    public string selectedFriend;
+    private string selectedFriend;
 
     void Start()
     {
-        StartCoroutine("GetFriendList");
-        InvokeRepeating("UpdateFriendsList", 5, 5);
+        if (PlayerPrefs.GetInt("Offline Mode") != 1)
+        {
+            StartCoroutine("GetFriendList");
+            InvokeRepeating("UpdateFriendsList", 5, 5);
+        }
     }
 
     void UpdateFriendsList()
@@ -164,7 +167,13 @@ public class Friends : MonoBehaviour
 
     void OnGUI()
     {
-        if(GUI.Button(new Rect(friendsListPos.x, 0, friendsListPos.width, 25), friendButtonText + " Friends List"))
+        if(PlayerPrefs.GetInt("Offline Mode") == 1)
+        {
+            GUI.Button(new Rect(friendsListPos.x, 0, friendsListPos.width, 25), "Can't Show Friends List in Offline Mode");
+        }
+        else
+        {
+        if (GUI.Button(new Rect(friendsListPos.x, 0, friendsListPos.width, 25), friendButtonText + " Friends List"))
         {
             if(friendButtonText == "Show")
             {
@@ -176,85 +185,86 @@ public class Friends : MonoBehaviour
             }
         }
 
-        if (friendButtonText == "Hide")
-        {
-            GUI.Box(friendsListPos, "");
-            if (friendsList.Length == 0)
+            if (friendButtonText == "Hide")
             {
-                GUI.Label(new Rect(Screen.width - 250, 35, 250, 350), "No Friends Added!");
-            }
-            else
-            {
-                scrollPos = GUI.BeginScrollView(new Rect(Screen.width - 250, 35, 250, 350), scrollPos, new Rect(-10, 0, 230, friendsList.Length * 35));
-                //
-                int buttonY = 0;
-                int num = 0;
-                foreach (string friend in friendsList)
+                GUI.Box(friendsListPos, "");
+                if (friendsList.Length == 0)
                 {
-
-                    string displayStatus;
-                    if (friendsStatusList[num] == "Appear Offline")
-                    {
-                        displayStatus = "Offline";
-                    }
-                    else
-                    {
-                        displayStatus = friendsStatusList[num];
-                    }
-
-                    if (GUI.Button(new Rect(0, buttonY, 220, 25), friend + " (" + displayStatus + ")"))
-                    {
-                        if(Event.current.button == 0) // If Left CLick
-                        {
-                            //TODO View Profile
-                        }
-                        else if (Event.current.button == 1) // If Right Click
-                        {
-                            if(selectedFriend == friend && friendOptions == true)
-                            {
-                                friendOptions = false;
-                            }
-                            else
-                            {
-                                friendOptions = true;
-                                friendOptionsPos = new Vector2(Screen.width - 400, buttonY + 35);
-                                selectedFriend = friend;
-                            }
-                        }
-                        num++;
-                    }
-                    buttonY += 35;
+                    GUI.Label(new Rect(Screen.width - 250, 35, 250, 350), "No Friends Added!");
                 }
-                //
-                GUI.EndScrollView();               
-            }
-            if (GUI.Button(new Rect(friendsListPos.x + 5, 395, 240, 25), "Add Friend"))
-            {
-                addFriend = !addFriend;
-                friendName = "Add Friend";
-            }
-            if (addFriend)
-            {
-                friendName = GUI.TextArea(new Rect(friendsListPos.x, 425, 250, 25), friendName);
-                if (GUI.Button(new Rect(friendsListPos.x, 450, 250, 25), "Confirm"))
+                else
                 {
-                    if (friendName != "" && friendName != "Add Friend")
+                    scrollPos = GUI.BeginScrollView(new Rect(Screen.width - 250, 35, 250, 350), scrollPos, new Rect(-10, 0, 230, friendsList.Length * 35));
+                    //
+                    int buttonY = 0;
+                    int num = 0;
+                    foreach (string friend in friendsList)
                     {
-                        StartCoroutine("AddFriend");
-                        friendName = "Add Friend";
-                        addFriend = false;
+
+                        string displayStatus;
+                        if (friendsStatusList[num] == "Appear Offline")
+                        {
+                            displayStatus = "Offline";
+                        }
+                        else
+                        {
+                            displayStatus = friendsStatusList[num];
+                        }
+
+                        if (GUI.Button(new Rect(0, buttonY, 220, 25), friend + " (" + displayStatus + ")"))
+                        {
+                            if (Event.current.button == 0) // If Left CLick
+                            {
+                                //TODO View Profile
+                            }
+                            else if (Event.current.button == 1) // If Right Click
+                            {
+                                if (selectedFriend == friend && friendOptions == true)
+                                {
+                                    friendOptions = false;
+                                }
+                                else
+                                {
+                                    friendOptions = true;
+                                    friendOptionsPos = new Vector2(Screen.width - 400, buttonY + 35);
+                                    selectedFriend = friend;
+                                }
+                            }
+                            num++;
+                        }
+                        buttonY += 35;
+                    }
+                    //
+                    GUI.EndScrollView();
+                }
+                if (GUI.Button(new Rect(friendsListPos.x + 5, 395, 240, 25), "Add Friend"))
+                {
+                    addFriend = !addFriend;
+                    friendName = "Add Friend";
+                }
+                if (addFriend)
+                {
+                    friendName = GUI.TextArea(new Rect(friendsListPos.x, 425, 250, 25), friendName);
+                    if (GUI.Button(new Rect(friendsListPos.x, 450, 250, 25), "Confirm"))
+                    {
+                        if (friendName != "" && friendName != "Add Friend")
+                        {
+                            StartCoroutine("AddFriend");
+                            friendName = "Add Friend";
+                            addFriend = false;
+                        }
                     }
                 }
-            }
 
-            if(friendOptions)
-            {
-                if(GUI.Button(new Rect(friendOptionsPos.x, friendOptionsPos.y, 150, 25), "Remove Friend"))
+                if (friendOptions)
                 {
-                    StartCoroutine("RemoveFriend");
-                    friendOptions = false;
-                    selectedFriend = null;
-                    friendOptionsPos = Vector2.zero;
+                    if (GUI.Button(new Rect(friendOptionsPos.x, friendOptionsPos.y, 150, 25), "Remove Friend"))
+                    {
+                        StartCoroutine("RemoveFriend");
+                        friendOptions = false;
+                        selectedFriend = null;
+                        friendOptionsPos = Vector2.zero;
+                    }
                 }
             }
         }

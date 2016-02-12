@@ -58,6 +58,7 @@ public class LoginSystem : MonoBehaviour
             SceneManager.LoadScene("MainMenu");
             PlayerPrefs.SetInt("Offline Mode", 1);
             PlayerPrefs.SetString("Username", "Offline Mode");
+            PlayerPrefs.SetString("OnlineStatus", "Offline Mode");
         }
 
         //Close the game

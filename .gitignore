@@ -47,24 +47,17 @@ Thumbs.db
 # ===================================== #
 # Will / Tim Added Ignores #
 # ===================================== #
-Library/*
 Library/
 */*Library/
 *Library
-**Library
-FantasyRTSUnity/Library/**
-FantasyRTSUnity/Library/*
-FantasyRTSUnity/Library/
-FantasyRTSUnity/Library
+
 
 # Unity3D generated meta files
 *.pidb.meta
-*.meta
 
 FantasyRTSUnity/Library/previews/*
 FantasyRTSUnity/Library/ScriptAssemblies/*
 FantasyRTSUnity/Library/cache/*
-FantasyRTSUnity/Library/metadata/*
 FantasyRTSUnity/Library/*
 Builds/*
 Patcher/Build/*
