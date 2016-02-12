@@ -16,7 +16,7 @@ public class OnlineStatusCheck : MonoBehaviour
         if (offlineMode != 1)
         {
             InvokeRepeating("AddSecond", 1, 1);
-            InvokeRepeating("PingServer", 0, 60);
+            InvokeRepeating("PingServer", 0, 30);
         }
     }
 	
