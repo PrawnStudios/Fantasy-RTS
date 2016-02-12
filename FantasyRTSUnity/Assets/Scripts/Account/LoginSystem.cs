@@ -23,6 +23,11 @@ public class LoginSystem : MonoBehaviour
     public float Width = 400;
     public float Height = 450;
 
+    void Update()
+    {
+        Hotkeys();
+    }
+
     void OnGUI()
     {
         //if our current menu = login, the display the login menu
@@ -190,6 +195,14 @@ public class LoginSystem : MonoBehaviour
                     Debug.Log("Invalid username or password");
                 }
             }
+        }
+    }
+
+    private void Hotkeys()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            StartCoroutine("LoginAccount"); //login
         }
     }
 }
