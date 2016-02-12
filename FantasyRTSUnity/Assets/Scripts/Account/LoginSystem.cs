@@ -167,7 +167,6 @@ public class LoginSystem : MonoBehaviour
         {
 
             string logText = LoginAccountWWW.text;
-            Debug.Log(logText);
             if (logText == "Already Logged In")
             {
                 Debug.Log("This Account is already logged in on another computer.");
@@ -180,6 +179,7 @@ public class LoginSystem : MonoBehaviour
                     Debug.Log("Successfully logged in!");
                     SceneManager.LoadScene("MainMenu");
                     PlayerPrefs.SetInt("Offline Mode", 0);
+                    PlayerPrefs.SetString("OnlineStatus", "Online");
                     PlayerPrefs.SetString("Username", userName);
                     PlayerPrefs.SetString("UserID", logTextSplit[1]); //Set the UserID to the MD5 encrypted version of the users ID
                 }

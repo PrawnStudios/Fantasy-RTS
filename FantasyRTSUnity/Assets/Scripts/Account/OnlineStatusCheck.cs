@@ -7,29 +7,37 @@ public class OnlineStatusCheck : MonoBehaviour
     private string reportToURL = "http://prawnstudios.com/ingame/activitycheck.php";
     private int secondsIdle = 0;
     string lastStatus;
+    private int offlineMode;
     //TODO 
 
     void Start ()
     {
-        InvokeRepeating("AddSecond", 1, 1);
-        InvokeRepeating("PingServer", 0, 60);
+        offlineMode = PlayerPrefs.GetInt("Offline Mode");
+        if (offlineMode != 1)
+        {
+            InvokeRepeating("AddSecond", 1, 1);
+            InvokeRepeating("PingServer", 0, 60);
+        }
     }
 	
 	void Update ()
-    {        
-        if (Input.anyKey)
+    {
+        if (offlineMode != 1)
         {
-            secondsIdle = 0;
-            if(onlineStatus == "Afk")
+            if (Input.anyKey)
             {
-                onlineStatus = "Online";
+                secondsIdle = 0;
+                if (onlineStatus == "Afk")
+                {
+                    onlineStatus = "Online";
+                }
             }
-        }
-        else if(secondsIdle >= 300) //If idle for 5 mins
-        {
-            if (onlineStatus != "Hidden" || onlineStatus != "Busy") //And you are not set to hidden or Busy
+            else if (secondsIdle >= 300) //If idle for 5 mins
             {
-                SetAway();
+                if (onlineStatus != "Hidden" || onlineStatus != "Busy") //And you are not set to hidden or Busy
+                {
+                    SetAway();
+                }
             }
         }
 	}
@@ -44,6 +52,7 @@ public class OnlineStatusCheck : MonoBehaviour
         onlineStatus = "Afk";
         StartCoroutine("PingServer");
         Debug.Log("Set Away Called");
+        PlayerPrefs.SetString("OnlineStatus", onlineStatus);
     }
 
     public void SetBusy()
@@ -51,6 +60,7 @@ public class OnlineStatusCheck : MonoBehaviour
         onlineStatus = "Busy";
         StartCoroutine("PingServer");
         Debug.Log("Set Busy Called");
+        PlayerPrefs.SetString("OnlineStatus", onlineStatus);
     }
 
     public void SetOnline()
@@ -58,13 +68,15 @@ public class OnlineStatusCheck : MonoBehaviour
         onlineStatus = "Online";
         StartCoroutine("PingServer");
         Debug.Log("Set Online Called");
+        PlayerPrefs.SetString("OnlineStatus", onlineStatus);
     }
 
     public void SetHidden()
     {
-        onlineStatus = "Hidden";
+        onlineStatus = "Appear Offline";
         StartCoroutine("PingServer");
         Debug.Log("Set Hidden Called");
+        PlayerPrefs.SetString("OnlineStatus", onlineStatus);
     }
 
     public void SetOffline()
@@ -72,6 +84,7 @@ public class OnlineStatusCheck : MonoBehaviour
         onlineStatus = "Offline";
         StartCoroutine("PingServer");
         Debug.Log("Set Offline Called");
+        PlayerPrefs.SetString("OnlineStatus", onlineStatus);
     }
 
     public void PingServer()
