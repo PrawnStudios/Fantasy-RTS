@@ -22,6 +22,7 @@ public class Friends : MonoBehaviour
     private string[] friendsList = new string[0];
     private string[] friendsStatusList = new string[0];
     private string selectedFriend;
+    private string selectedFriendStatus;
 
     void Start()
     {
@@ -197,21 +198,22 @@ public class Friends : MonoBehaviour
                     scrollPos = GUI.BeginScrollView(new Rect(Screen.width - 250, 35, 250, 350), scrollPos, new Rect(-10, 0, 230, friendsList.Length * 35));
                     //
                     int buttonY = 0;
-                    int num = 0;
-                    foreach (string friend in friendsList)
+                    //int num = 0;
+                    //foreach (string friend in friendsList)
+                    for(int i=0; i < friendsList.Length; i++)
                     {
 
-                        string displayStatus;
-                        if (friendsStatusList[num] == "Appear Offline")
+                        string[] displayStatus = new string[friendsStatusList.Length];
+                        if (friendsStatusList[i] == "Appear Offline")
                         {
-                            displayStatus = "Offline";
+                            displayStatus[i] = "Offline";
                         }
                         else
                         {
-                            displayStatus = friendsStatusList[num];
+                            displayStatus[i] = friendsStatusList[i];
                         }
 
-                        if (GUI.Button(new Rect(0, buttonY, 220, 25), friend + " (" + displayStatus + ")"))
+                        if (GUI.Button(new Rect(0, buttonY, 220, 25), friendsList[i] + " (" + displayStatus[i] + ")"))
                         {
                             if (Event.current.button == 0) // If Left CLick
                             {
@@ -219,7 +221,7 @@ public class Friends : MonoBehaviour
                             }
                             else if (Event.current.button == 1) // If Right Click
                             {
-                                if (selectedFriend == friend && friendOptions == true)
+                                if (selectedFriend == friendsList[i] && friendOptions == true)
                                 {
                                     friendOptions = false;
                                 }
@@ -227,10 +229,10 @@ public class Friends : MonoBehaviour
                                 {
                                     friendOptions = true;
                                     friendOptionsPos = new Vector2(Screen.width - 400, buttonY + 35);
-                                    selectedFriend = friend;
+                                    selectedFriend = friendsList[i];
+                                    selectedFriendStatus = friendsStatusList[i];
                                 }
                             }
-                            num++;
                         }
                         buttonY += 35;
                     }
@@ -264,6 +266,13 @@ public class Friends : MonoBehaviour
                         friendOptions = false;
                         selectedFriend = null;
                         friendOptionsPos = Vector2.zero;
+                    }
+                    if(selectedFriendStatus != "Appear Offline" && selectedFriendStatus != "Offline")
+                    {
+                        if (GUI.Button(new Rect(friendOptionsPos.x, friendOptionsPos.y + 25, 150, 25), "Invite"))
+                        {
+                            //TODO Invite friend to game.
+                        }
                     }
                 }
             }

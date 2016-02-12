@@ -59,6 +59,7 @@ FantasyRTSUnity/Library/previews/*
 FantasyRTSUnity/Library/ScriptAssemblies/*
 FantasyRTSUnity/Library/cache/*
 FantasyRTSUnity/Library/*
+FantasyRTSUnity/Temp/*
 Builds/*
 Patcher/Build/*
 Patcher/FantasyRTSPatcher/Library/previews/*
