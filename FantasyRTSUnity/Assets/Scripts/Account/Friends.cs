@@ -20,6 +20,7 @@ public class Friends : MonoBehaviour
     public Vector2 friendOptionsPos;
 
     private string[] friendsList = new string[0];
+    private string[] friendsStatusList = new string[0];
     public string selectedFriend;
 
     void Start()
@@ -39,6 +40,8 @@ public class Friends : MonoBehaviour
     IEnumerator GetFriendList()
     {
         Debug.Log("Get Friends List Called");
+        //friendsList = new string[0];
+       // friendsStatusList = new string[0];
 
         WWWForm form = new WWWForm(); //this is what sends messages to our php script
 
@@ -60,17 +63,40 @@ public class Friends : MonoBehaviour
             {
                 Debug.Log("Could not find the logged in user");
             }
+            else if(logText == "No Friends Added")
+            {
+                Debug.Log("No Friends Found");
+            }
             else if(logText == "User already on your freinds list")
             {
                 Debug.Log("User already Added");
             }
-            else if(logText == "No Friends Added")
-            {
-                Debug.Log("No Friends Added");
-            }
             else
             {
-                friendsList = logText.Split(':');
+                string[] friendsAndStatus = logText.Split(':');
+                bool friend = true;
+
+                string friendString = "";
+                string statusString = "";
+                for (int i=0; i < friendsAndStatus.Length; i++)
+                {
+                    if(friend)
+                    {
+                        friendString += friendsAndStatus[i] + ":";
+                        friend = false;
+                    }
+                    else
+                    {
+                        statusString += friendsAndStatus[i] + ":";
+                        friend = true;
+                    }
+                }
+                if (friendString.Length > 0) { friendString = friendString.Substring(0, friendString.Length - 1); }
+                if (statusString.Length > 0) { statusString = statusString.Substring(0, statusString.Length - 1); }
+                friendsList = new string[0];
+                friendsList = friendString.Split(':');
+                friendsStatusList = new string[0];
+                friendsStatusList = statusString.Split(':');
                 Debug.Log("Friend's list updated");
             }
         }
@@ -115,7 +141,7 @@ public class Friends : MonoBehaviour
         WWWForm form = new WWWForm(); //this is what sends messages to our php script
 
         //the fields are the variables we are sending
-        form.AddField("FriendUsername", selectedFriend);
+        form.AddField("FriendsUsername", selectedFriend);
         form.AddField("ID", PlayerPrefs.GetString("UserID"));
 
         WWW LoginAccountWWW = new WWW(removeFriendUrl, form);
@@ -162,9 +188,21 @@ public class Friends : MonoBehaviour
                 scrollPos = GUI.BeginScrollView(new Rect(Screen.width - 250, 35, 250, 350), scrollPos, new Rect(-10, 0, 230, friendsList.Length * 35));
                 //
                 int buttonY = 0;
+                int num = 0;
                 foreach (string friend in friendsList)
                 {
-                    if (GUI.Button(new Rect(0, buttonY, 220, 25), friend))
+
+                    string displayStatus;
+                    if (friendsStatusList[num] == "Appear Offline")
+                    {
+                        displayStatus = "Offline";
+                    }
+                    else
+                    {
+                        displayStatus = friendsStatusList[num];
+                    }
+
+                    if (GUI.Button(new Rect(0, buttonY, 220, 25), friend + " (" + displayStatus + ")"))
                     {
                         if(Event.current.button == 0) // If Left CLick
                         {
@@ -172,10 +210,18 @@ public class Friends : MonoBehaviour
                         }
                         else if (Event.current.button == 1) // If Right Click
                         {
-                            friendOptions = !friendOptions;
-                            friendOptionsPos = new Vector2(Screen.width - 400, buttonY + 35);
-                            selectedFriend = friend;
+                            if(selectedFriend == friend && friendOptions == true)
+                            {
+                                friendOptions = false;
+                            }
+                            else
+                            {
+                                friendOptions = true;
+                                friendOptionsPos = new Vector2(Screen.width - 400, buttonY + 35);
+                                selectedFriend = friend;
+                            }
                         }
+                        num++;
                     }
                     buttonY += 35;
                 }
@@ -205,7 +251,10 @@ public class Friends : MonoBehaviour
             {
                 if(GUI.Button(new Rect(friendOptionsPos.x, friendOptionsPos.y, 150, 25), "Remove Friend"))
                 {
-                    RemoveFriend();
+                    StartCoroutine("RemoveFriend");
+                    friendOptions = false;
+                    selectedFriend = null;
+                    friendOptionsPos = Vector2.zero;
                 }
             }
         }
