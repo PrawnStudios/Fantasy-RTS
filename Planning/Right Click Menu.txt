@@ -1,0 +1,17 @@
+This is the menu that will appear when you have nothing selected and right click in the world:
+
+Create Unit and Move it Here (gives a list of all units that can be made and start production from nearest building for that type of unit eg: Barracks, Stable, Siege Workshop)
+Set Marker (Create a translucent 3D object that wil sit at the spot untill moved, this is used for planning and marking key areas of the map. you could cycle the camera to the markers by pressing a keybinding)
+Set as spawn location for: (Sets this position as the default position units from the selected building will move to when created)
+
+
+
+
+This is the menu that will appear when you have a unit selected. (all options will also have a keybinding for faster access)
+
+Move to Position
+Fire at Position (For ranged units only, move into range and fire there weapons at the general area selected)
+Hold Position (Tells the units to move to this position and get in the nearest cover)
+Charge Position (Tells tge units to charge to the position as quickly as possible and attack any enemy units there)
+
+

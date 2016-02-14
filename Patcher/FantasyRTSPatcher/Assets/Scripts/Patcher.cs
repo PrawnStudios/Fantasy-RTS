@@ -4,6 +4,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 public class Patcher : MonoBehaviour //FOR THE PATCHER UNITY PROJECT
@@ -46,13 +47,13 @@ public class Patcher : MonoBehaviour //FOR THE PATCHER UNITY PROJECT
         buildVersion += "version.txt";//have this file next to app/exe
 
 
-        version = System.IO.File.ReadAllText(buildVersion);
+        version = File.ReadAllText(buildVersion);
         version = version.Replace(".", "");
         version = version.Trim();
 
         updateMsg = "\n\n\nChecking For Updates..."; //GUI update for user
         yield return new WaitForSeconds(1.0f);                        //make it visible
-        string url = "http://www.prawnstudios.com/rts/Builds/Live/version.txt"; ; //txt file with version # in it
+        string url = "http://www.prawnstudios.com/rts/Builds/Live/version.txt"; //txt file with version # in it
         updateMsg = "\n\n\nEstablishing Connection...";//GUI update for user
         WWW patchwww = new WWW(url); //create new web connection to the build number site
         yield return patchwww;     // wait for download to finish
@@ -66,7 +67,7 @@ public class Patcher : MonoBehaviour //FOR THE PATCHER UNITY PROJECT
         float availablePatch = float.Parse(convertedText);
         if (float.Parse(version) >= availablePatch)
         {    //check version
-            updateMsg = "\nCurrently update to date.\n\nWould you like to launch The Dark Tower?";
+            updateMsg = "\nCurrently update to date.\n\nWould you like to launch Fantasy RTS?";
             updateDone = true;
             Debug.Log("Already Up to date");
         }
@@ -150,8 +151,6 @@ public class Patcher : MonoBehaviour //FOR THE PATCHER UNITY PROJECT
 
             updateMsg = "\n\nDownloading File " + (i + 1) + " of " + downloadList.Count + "\n";
             originalMsg = "\n\nDownloading File " + (i + 1) + " of " + downloadList.Count + "\n";
-            //yield return new downloadFile(fileName);
-            //StartCoroutine("downloadFile(fileName)");
             yield return downloadFile(fileName);
             if (errorOccured == true)
             {
@@ -163,7 +162,7 @@ public class Patcher : MonoBehaviour //FOR THE PATCHER UNITY PROJECT
             string versionURL = "http://www.prawnstudios.com/rts/Builds/Live/version.txt";
             WWW versionText = new WWW(versionURL);
             yield return versionText;
-            System.IO.File.WriteAllBytes(savePath + "/../version.txt", versionText.bytes);
+            File.WriteAllBytes(savePath + "/../version.txt", versionText.bytes);
             updateMsg = "\n\nSuccessfully Updated. \n\nWould you like to relaunch Fantasy RTS?";
             updateDone = true;
         }
@@ -179,28 +178,28 @@ public class Patcher : MonoBehaviour //FOR THE PATCHER UNITY PROJECT
         download = new WWW(url);     //download file from platforms raw folder
         while (!download.isDone)
         {
-            /*if (download.error) //TODO fix this block. currently giving error
+            if (download.error != null && download.error != "") //TODO fix this block. currently giving error
             {
                 errorOccured = true;
             }
-            else {
+            else
+            {
                 updateMsg = originalMsg + "\n\n" + file + "\nDownload Progress: " + (download.progress * 100).ToString("##0.00f") + "%";
-            }*/
+            }
         }
         yield return download;                                 // wait for download to finish
 
         try
         {
             updateMsg += "...saving...";
-            System.IO.File.WriteAllBytes(savePath + file, download.bytes);
+            File.WriteAllBytes(savePath + file, download.bytes);
             updateMsg += "success!";
         }
-        catch { }
-        /*catch (error)//TODO fix this block. currently fiving error 
+        catch (IOException error)//TODO fix this block. currently fiving error 
         {
             updateMsg = "Update Failed with error message:\n\n" + error.ToString();
             errorOccured = true;
-        }*/
+        }
     }
     void openFantasyRTS()
     {
