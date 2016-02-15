@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Preview Building
   - Unit
+  - Platoon
   layers:
   - Default
   - TransparentFX
