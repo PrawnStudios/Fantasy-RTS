@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraMovement : MonoBehaviour
+public class CameraTest : MonoBehaviour
 {
 
     //TODO Redo the height speed modifier and all calculation related to it
@@ -29,7 +29,7 @@ public class CameraMovement : MonoBehaviour
 
     //Rotation Variables
     private float rotSpeed = 150; //The speed the camera rotates at (Applies for horizonatal and "Tilt" rotation.)
-    
+
 
     private bool heightChanged = false; //Bool to check if the cameras height has changed since the last frame. 
 
@@ -60,7 +60,7 @@ public class CameraMovement : MonoBehaviour
         target = _target; //Caches the new target when the camera changes its target (From the Target script).
     }
 
-    void Update ()
+    void Update()
     {
         Keybindings(); //Checks to see which inputs are being called.
         HeightCheck(); //Calculates the dynamic cap lower and the height of the terrain directly below the camera.
@@ -84,7 +84,7 @@ public class CameraMovement : MonoBehaviour
                 currentHeightPercentage = (int)((transform.position.y - zoomCapLower) / ((zoomCapUpper - zoomCapLower)) * 100); //If we are not locked to the ground, calcualte our height% using this method.
             }
         }
-          
+
     }
 
     void Rotate(Vector3 dir) //Roate the camera by passing it a direction as a Vector3
@@ -158,7 +158,7 @@ public class CameraMovement : MonoBehaviour
 
     void Keybindings()
     {
-        if(Input.GetButton("Camera Pan Forward"))
+        if (Input.GetButton("Camera Pan Forward"))
         {
             if (Input.GetButton("Camera Pan Right") || Input.GetButton("Camera Pan Left"))
             {
@@ -206,17 +206,7 @@ public class CameraMovement : MonoBehaviour
             }
         }
 
-       /* //ZOOM
-        if(Input.GetButton("Camera Zoom In"))
-        {
-            Zoom(Camera.main.transform.forward);
-        }
-        if(Input.GetButton("Camera Zoom Out") || Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            Zoom(-Camera.main.transform.forward);
-        }*/
-
-        if(Input.GetAxis("Mouse ScrollWheel") > 0)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             Zoom(Camera.main.transform.forward);
         }
