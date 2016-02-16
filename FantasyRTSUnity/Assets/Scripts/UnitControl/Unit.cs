@@ -34,6 +34,10 @@ public class Unit : MonoBehaviour
                 Deselected();
             }            
         }
+        else if (Input.GetMouseButton(0) && platoonSelected)
+        {
+            Selected();
+        }
     }
 
     public void Selected()

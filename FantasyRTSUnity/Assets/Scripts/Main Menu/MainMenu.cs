@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 
     public int version;
     private bool statusMenu = false;
+    public GameObject accountManager;
 
 
 	void Start () 
@@ -18,6 +19,12 @@ public class MainMenu : MonoBehaviour
         else
         {
             version = 1; //TODO HAVE THIS READ FROM FILE. DO NOT LEAVE HARD CODED
+        }
+
+        if(PlayerPrefs.GetString("OnlineStatus") != "Offline")
+        {
+            Instantiate(accountManager);
+            DontDestroyOnLoad(accountManager);
         }
 	}
 	
@@ -60,13 +67,16 @@ public class MainMenu : MonoBehaviour
         {
             GUILayout.Label("Currently Logged in as: " + PlayerPrefs.GetString("Username"), centeredStyle);
         }
-        //TODO Add dropdown list for online status (Online, AFK, Busy, Hidden)
-        if (GUILayout.Button("Play")) { SceneManager.LoadScene("CodeTestLab"); }
+        //if (GUILayout.Button("Play")) { SceneManager.LoadScene("CodeTestLab"); }
+        if(GUILayout.Button("Setup Game"))
+        {
+            SceneManager.LoadScene("Lobby");
+        }
         if (GUILayout.Button("Check for Update")) { GetComponent<Patcher>().Check(); GetComponent<MainMenu>().enabled = false; }
         if (GUILayout.Button("Logout"))
         {
-            SceneManager.LoadScene("Login");
             GetComponent<OnlineStatusCheck>().SetOffline();
+            SceneManager.LoadScene("Login");            
         }
         //
         GUILayout.FlexibleSpace();

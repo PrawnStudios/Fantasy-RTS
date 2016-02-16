@@ -14,8 +14,7 @@ GameObject:
   - 81: {fileID: 8173416}
   - 114: {fileID: 11439022}
   - 114: {fileID: 11478348}
-  - 114: {fileID: 11431056}
-  - 114: {fileID: 11412638}
+  - 114: {fileID: 11479086}
   m_Layer: 0
   m_Name: MainMenu Camera
   m_TagString: MainCamera
@@ -83,32 +82,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142878}
   m_Enabled: 1
---- !u!114 &11412638
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4645e0c4e2982804e9f75f60fbfb4fcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  friendOptions: 0
-  friendOptionsPos: {x: 0, y: 0}
-  selectedFriend: 
---- !u!114 &11431056
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e4811dc6b329964290545070f4be311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onlineStatus: Online
 --- !u!114 &11439022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 0
+  accountManager: {fileID: 158932, guid: 700457e15fa9ef24e96b3f2d62b0bb16, type: 2}
 --- !u!114 &11478348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,6 +107,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildVersion: 1.0f.0
+--- !u!114 &11479086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4645e0c4e2982804e9f75f60fbfb4fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &12464978
 Behaviour:
   m_ObjectHideFlags: 1

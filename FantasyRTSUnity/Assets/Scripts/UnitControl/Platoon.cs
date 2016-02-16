@@ -23,16 +23,14 @@ public class Platoon : MonoBehaviour
             {
                 foreach (GameObject unit in units)
                 {
-                    unit.GetComponent<Unit>().Selected();
-                    unit.GetComponent<Unit>().platoonSelected = true;
+                    unit.GetComponent<Unit>().platoonSelected = true;                 
                 }
             }
-            else
+            else if(!selected && !KeyModifiers.Shift())
             {
                 foreach (GameObject unit in units)
                 {
-                    unit.GetComponent<Unit>().Deselected();
-                    unit.GetComponent<Unit>().platoonSelected = false;
+                    unit.GetComponent<Unit>().platoonSelected = false;                   
                 }
             }
         }
