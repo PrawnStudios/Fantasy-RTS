@@ -16,12 +16,24 @@ public class LoginSystem : MonoBehaviour
 
     private string CreateAccountUrl = "http://prawnstudios.com/ingame/register.php";
     private string LoginUrl = "http://prawnstudios.com/ingame/login.php";
+    private string VerifyEmailUrl = "http://prawnstudios.com/ingame/verifyemailsend.php";
 
     //GUI
     public float X = 300;
     public float Y = 65;
     public float Width = 400;
     public float Height = 450;
+
+    //Will Added
+    private bool verified = true;
+
+    void Start()
+    {
+        if (PlayerPrefs.HasKey("UserID"))
+        {
+            PlayerPrefs.DeleteKey("UserID");
+        }
+    }
 
     void Update()
     {
@@ -74,6 +86,16 @@ public class LoginSystem : MonoBehaviour
 
         GUI.Label(new Rect(565, 260, 188, 25), "Username:");
         userName = GUI.TextField(new Rect(565, 280, 188, 25), userName);
+
+        if(!verified)
+        {
+            GUI.Label(new Rect(765, 250, 188, 25) , "Email not Verified.");
+            if (GUI.Button(new Rect(765, 280, 188, 25), "Resend Email Verification"))
+            {
+                verified = true;
+                StartCoroutine("VerifyEmail");
+            }
+        }
 
         GUI.Label(new Rect(565, 320, 188, 25), "Password:");
         password = GUI.PasswordField(new Rect(565, 340, 188, 25), password, "*"[0], 25);
@@ -178,6 +200,11 @@ public class LoginSystem : MonoBehaviour
             {
                 Debug.Log("This Account is already logged in on another computer.");
             }
+            else if(logText == "Email Not Verified")
+            {
+                Debug.Log("Email not Verified");
+                verified = false;
+            }
             else
             {
                 string[] logTextSplit = logText.Split(':');
@@ -203,6 +230,28 @@ public class LoginSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             StartCoroutine("LoginAccount"); //login
+        }
+    }
+
+    IEnumerator VerifyEmail()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("Username", userName);
+        WWW VerifyEmailWWW = new WWW(VerifyEmailUrl, form);
+        yield return VerifyEmailWWW;
+        if (VerifyEmailWWW.error != null)
+        {
+            Debug.LogError("Cannot connect to login server.");
+        }
+        else
+        {
+            string logText = VerifyEmailWWW.text;
+            Debug.Log(logText);
+            string[] logtextsplit = logText.Split(':');
+            if (logtextsplit[0] == "Email Sent")
+            {
+                Debug.Log("Email Verification Re-sent to: " + logtextsplit[1]);
+            }
         }
     }
 }

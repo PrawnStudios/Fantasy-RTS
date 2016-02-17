@@ -23,15 +23,26 @@ public class MainMenu : MonoBehaviour
 
         if(PlayerPrefs.GetString("OnlineStatus") != "Offline")
         {
-            Instantiate(accountManager);
-            DontDestroyOnLoad(accountManager);
+            if (GameObject.Find("Account Manager") == null)
+            {
+                accountManager = Instantiate(accountManager);
+                accountManager.name = "Account Manager";
+                Debug.Log("Renamed Account Manager");
+                DontDestroyOnLoad(accountManager);
+            }
+            else
+            {
+                accountManager = GameObject.Find("Account Manager");
+            }
         }
 	}
 	
-	void Update () 
+	IEnumerator Logout () 
 	{
-	
-	}
+        accountManager.GetComponent<OnlineStatusCheck>().SetOffline();
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("Login");
+    }
 
     void OnGUI()
     {
@@ -43,13 +54,13 @@ public class MainMenu : MonoBehaviour
         if(statusMenu && PlayerPrefs.GetInt("Offline Mode") == 0)
         {
             statusRect.y += 30;
-            if(GUI.Button(statusRect, "Online")) { GetComponent<OnlineStatusCheck>().SetOnline(); }
+            if(GUI.Button(statusRect, "Online")) { accountManager.GetComponent<OnlineStatusCheck>().SetOnline(); }
             statusRect.y += 30;
-            if(GUI.Button(statusRect, "AFK")) { GetComponent<OnlineStatusCheck>().SetAway(); }
+            if(GUI.Button(statusRect, "AFK")) { accountManager.GetComponent<OnlineStatusCheck>().SetAway(); }
             statusRect.y += 30;
-            if(GUI.Button(statusRect, "Busy")) { GetComponent<OnlineStatusCheck>().SetBusy(); }
+            if(GUI.Button(statusRect, "Busy")) { accountManager.GetComponent<OnlineStatusCheck>().SetBusy(); }
             statusRect.y += 30;
-            if(GUI.Button(statusRect, "Appear Offline")) { GetComponent<OnlineStatusCheck>().SetHidden(); }
+            if(GUI.Button(statusRect, "Appear Offline")) { accountManager.GetComponent<OnlineStatusCheck>().SetHidden(); }
         }
 
         GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
@@ -75,8 +86,8 @@ public class MainMenu : MonoBehaviour
         if (GUILayout.Button("Check for Update")) { GetComponent<Patcher>().Check(); GetComponent<MainMenu>().enabled = false; }
         if (GUILayout.Button("Logout"))
         {
-            GetComponent<OnlineStatusCheck>().SetOffline();
-            SceneManager.LoadScene("Login");            
+            accountManager.GetComponent<OnlineStatusCheck>().SetOffline();
+            SceneManager.LoadScene("Login");
         }
         //
         GUILayout.FlexibleSpace();

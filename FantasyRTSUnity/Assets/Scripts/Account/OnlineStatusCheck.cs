@@ -16,7 +16,7 @@ public class OnlineStatusCheck : MonoBehaviour
         if (offlineMode != 1)
         {
             InvokeRepeating("AddSecond", 1, 1);
-            InvokeRepeating("StatusTimer", 0, 5);
+            InvokeRepeating("StatusTimer", 0, 5);            
         }
     }
 
@@ -90,28 +90,31 @@ public class OnlineStatusCheck : MonoBehaviour
         StartCoroutine("PingServer");
         Debug.Log("Set Offline Called");
         PlayerPrefs.SetString("OnlineStatus", onlineStatus);
+
     }
 
     public IEnumerator PingServer()
     {
-
-        Debug.Log("Pinged Server with Status: " + onlineStatus);
-        WWWForm form = new WWWForm();
-        form.AddField("ID", PlayerPrefs.GetString("UserID"));
-        form.AddField("Status", onlineStatus);
-
-        //conect to our url, and put in our form
-        WWW LoginAccountWWW = new WWW(reportToURL, form);
-        yield return LoginAccountWWW;
-
-        if (LoginAccountWWW.error != null)
+        if (PlayerPrefs.HasKey("UserID"))
         {
-            Debug.LogError("Cannot connect to status update server.");
-        }
-        else
-        {
-            string logText = LoginAccountWWW.text;
-            Debug.Log(logText);
+            Debug.Log("Pinged Server with Status: " + onlineStatus);
+            WWWForm form = new WWWForm();
+            form.AddField("ID", PlayerPrefs.GetString("UserID"));
+            form.AddField("Status", onlineStatus);
+
+            //conect to our url, and put in our form
+            WWW LoginAccountWWW = new WWW(reportToURL, form);
+            yield return LoginAccountWWW;
+
+            if (LoginAccountWWW.error != null)
+            {
+                Debug.LogError("Cannot connect to status update server.");
+            }
+            else
+            {
+                string logText = LoginAccountWWW.text;
+                Debug.Log(logText);
+            }
         }
     }
 }
