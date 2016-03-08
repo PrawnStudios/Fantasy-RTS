@@ -206,16 +206,6 @@ public class CameraMovement : MonoBehaviour
             }
         }
 
-       /* //ZOOM
-        if(Input.GetButton("Camera Zoom In"))
-        {
-            Zoom(Camera.main.transform.forward);
-        }
-        if(Input.GetButton("Camera Zoom Out") || Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            Zoom(-Camera.main.transform.forward);
-        }*/
-
         if(Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             Zoom(Camera.main.transform.forward);
