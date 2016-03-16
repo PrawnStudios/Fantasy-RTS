@@ -45,7 +45,6 @@ public class CreateUnit : EditorWindow
 
         GUILayout.Label("");
         selected = EditorGUILayout.Popup("Choose your unit type:", selected, options);
-        presetSelect = EditorGUILayout.Popup("Choose your unit type:", presetSelect, presets);
         columns = EditorGUILayout.IntSlider("Number Of Columns:", columns, 0, 10);
         rows = EditorGUILayout.IntSlider("Number Of Rows:", rows, 0, 10);
         unitSpaceZ = EditorGUILayout.Slider("Unit spacing Z:", unitSpaceZ,0, 20);
